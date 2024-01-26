@@ -1,0 +1,5 @@
+in settings.py
+   STATIC_URL = "/static/"
+   STATIC_ROOT = BASE_DIR / "staticfiles"
+
+   python manage.py collectstatic
