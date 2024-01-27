@@ -20,5 +20,4 @@ echo "Collecting static files..."
 echo "Static files collected"
 
 echo "Starting server..."
-# /opt/venv/bin/gunicorn core.wsgi:application --bind "0.0.0.0:${APP_PORT}" --workers 4
-/opt/venv/bin/daphne -b 0.0.0.0 -p 8000 core.asgi:application
+/opt/venv/bin/gunicorn core.wsgi:application --bind "0.0.0.0:${APP_PORT}" --workers 4

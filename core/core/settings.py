@@ -13,12 +13,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY","abcdasdfjanksdjfn")
 DEBUG = int(os.environ.get("DEBUG", default=0))
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 
 AUTH_USER_MODEL = 'security.User'
@@ -44,9 +45,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://192.168.0.3:3000",
     "http://192.168.0.11:3000",
     "http://192.168.0.11",
-    "localhost", "127.0.0.1",
+    "http://localhost", "http://127.0.0.1",
     "http://localhost:8000",
-    "192.168.0.3",
+    "http://192.168.0.3",
 ]
 # CORS_ALLOWED_ORIGINS_ALL = True,
 CORS_ALLOW_CREDENTIALS = True
@@ -89,6 +90,7 @@ INSTALLED_APPS = [
 
     "security",
     'account',
+    'custom_commands',
 ]
 
 MIDDLEWARE = [
@@ -127,12 +129,29 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+POSTGRES_USER = config('POSTGRES_USER', cast=str)
+POSTGRES_PASSWORD = config('POSTGRES_PASSWORD', cast=str)
+POSTGRES_DB = config('POSTGRES_DB', cast=str)
+
+if all([POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB]):
+    print("Using PostgreSQL")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': POSTGRES_DB,
+            'USER': POSTGRES_USER,
+            'PASSWORD': POSTGRES_PASSWORD,
+            'HOST': 'db',
+            'PORT': 5432,
+        }
     }
-}
 
 
 # Password validation

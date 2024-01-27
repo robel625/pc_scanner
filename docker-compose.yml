@@ -4,7 +4,8 @@ services:
   backend:
     build:
       context: ./core
-    command: gunicorn core.wsgi --bind 0.0.0.0:8000
+    # command: gunicorn core.wsgi --bind 0.0.0.0:8000
+    # command: daphne -b 0.0.0.0 -p 8000 core.asgi:application
     volumes:
       - ./core/:/usr/src/app/
       - static_files:/usr/src/app/staticfiles
@@ -13,12 +14,25 @@ services:
       - "8000:8000"
     env_file:
       - ./core/.env/dev.env
+    depends_on:
+      - db
 
   frontend:
     build:
       context: ./react
     volumes:
       - react_build:/react/build
+
+  db:
+    container_name: db
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./core/.env/dev.env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
   nginx:
     build:
       context: ./nginx/
@@ -36,3 +50,4 @@ volumes:
   react_build:
   static_files:
   media_files:
+  db-data:
