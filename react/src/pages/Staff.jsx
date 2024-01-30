@@ -29,6 +29,7 @@ import { getDevices, deleteDevice, getdevice_byid } from '../redux/actions/devic
 import { getall_byid } from '../redux/actions/checkAction';
 import { deletePost } from '../redux/actions/postAction';
 import React, { useState, useEffect } from "react";
+import profile from '../data/profile.png';
 
 
 export function formatTimestamp(timestamp) {
@@ -98,7 +99,7 @@ const Staff = () => {
         <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
           <img
             className="object-cover object-center h-32"
-            src={check?.employee?.thumbnail || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"}
+            src={check?.employee?.thumbnail || profile}
             alt="Woman looking front"
           ></img>
         </div>
@@ -276,9 +277,9 @@ const Staff = () => {
                 <div>
                 <img
                                 className="mb-4 mt-4 rounded-lg  max-h-52 max-w-52 sm:mb-0 xl:mb-4 2xl:mb-0"
-                                src={item.thumbnail
+                                src={item.thumbnail || ""
                                 }
-                                alt="picture"
+                                
                             />
 
                <div className="flex items-center justify-start gap-6 mt-5 mb-5">

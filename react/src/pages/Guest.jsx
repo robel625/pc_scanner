@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { getPosts, deletePost } from '../redux/actions/postAction';
 import { filterPosts } from '../redux/actions/postAction';
+import profile from '../data/profile.png';
 
 
 
@@ -310,7 +311,7 @@ const GridEmployeeAction = (props) => {
   return (
     <div className="flex items-center justify-center gap-2">
       <Link to={`/staff/${props.id}`}>
-        <GrView style={{ fontSize: '20px', color: 'green' }} />
+        <GrView style={{ fontSize: '20px', color: 'green', marginRight:20 }} />
       </Link>
 
       <div onClick={() => {
@@ -329,11 +330,13 @@ const GridEmployeeAction = (props) => {
 
   const gridEmployeeProfile = (props) => (
     <div className="flex items-center gap-2">
+      <Link to={`/staff/${props.id}`}>
       <img
         className="rounded-full w-10 h-10"
-        src={props.thumbnail}
+        src={props.thumbnail || profile}
         // alt="employee"
       />
+      </Link>
       <p> {props.first_name || ''} {props.last_name || ''}</p>
     </div>
   );

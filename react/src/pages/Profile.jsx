@@ -60,7 +60,8 @@ const Profile = () => {
     } = userData;
 
     const [selectedImage, setSelectedImage] = useState("");
-    const [selectedDate, setSelectedDate] = useState(new Date(birthday));
+    const [selectedDate, setSelectedDate] = useState(birthday ? new Date(birthday): "");
+
 
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewpassword] = useState('');

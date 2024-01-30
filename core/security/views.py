@@ -203,6 +203,15 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        except AuthenticationFailed as e:
+            # Correct: Handle unauthorized user with appropriate response
+            return Response({'msg': 'email or password incorrect.'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 # class CustomTokenRefreshSerializer(TokenRefreshSerializer):
 #     def validate(self, attrs):

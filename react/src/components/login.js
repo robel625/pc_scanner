@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { login } from "../redux/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import barcodeScanner from '../data/barcode-scanner.svg';
+import { GLOBALTYPES } from '../redux/actions/globalTypes'
 
 const Login = () => {
 
@@ -27,8 +28,36 @@ const Login = () => {
     setUserData({ ...userData, [name]: value });
   };
 
+  function validateEmail(email) {
+    // eslint-disable-next-line
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+const [errEmail, setErrEmail] = useState("");
+const [errPassword, setErrPassword] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrEmail("")
+    setErrPassword("")
+    
+    if(!email) {
+      const email1 = "Please add your email."
+      return setErrEmail(email1)
+    }else if(!validateEmail(email)){
+      const email1 = "Email format is incorrect."
+      return setErrEmail(email1)
+  }
+
+  if(!password) {
+      const password1 = "Please add your password."
+      return setErrPassword(password1)
+  }else if(password.length < 2){
+      const password1 = "Password must be at least 2 characters."
+      return setErrPassword(password1)
+  }
+    
     dispatch(login(userData));
   };
 
@@ -125,10 +154,10 @@ const Login = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required=""
-                  style={{ background: `${alert.email ? "#fd2d6a14" : ""}` }}
+                  style={{ background: `${errEmail ? "#fd2d6a14" : ""}` }}
                 ></input>
                 <small className="text-sm font-medium text-red-500">
-                  {alert.email ? alert.email : ""}
+                  {errEmail ? errEmail : ""}
                 </small>
               </div>
               <div>
@@ -147,10 +176,10 @@ const Login = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
-                  style={{ background: `${alert.password ? "#fd2d6a14" : ""}` }}
+                  style={{ background: `${errPassword ? "#fd2d6a14" : ""}` }}
                 ></input>
                 <small className="text-sm font-medium text-red-500">
-                  {alert.password ? alert.password : ""}
+                  {errPassword ? errPassword : ""}
                 </small>
               </div>
               

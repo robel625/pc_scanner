@@ -70,7 +70,7 @@ const Check = () => {
       <div className="md:flex  justify-between">
         <div className="flex gap-10">
           <Header category="Page" title="Check" />
-          <div className="mt-3">
+          {/* <div className="mt-3">
             <Button2
               color="white"
               bgColor={currentColor}
@@ -78,7 +78,7 @@ const Check = () => {
               borderRadius="10px"
               customFunc={() => handleClick("check")}
             />
-          </div>
+          </div> */}
         </div>
 
         <div
